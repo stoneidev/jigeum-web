@@ -9,6 +9,7 @@ import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
 import Sidebar from './components/Sidebar';
 import FeedbackWidget from './components/FeedbackWidget';
+import RoutineGuide from './components/RoutineGuide';
 import { products, Product } from './data/products';
 
 export default function Home() {
@@ -67,6 +68,9 @@ export default function Home() {
         product={selectedProduct} 
         onClose={() => setSelectedProduct(null)} 
       />
+
+      {/* Routine Guide Section */}
+      <RoutineGuide />
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 px-4 lg:px-8 mb-16 lg:mb-0">
