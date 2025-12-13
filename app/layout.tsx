@@ -1,31 +1,51 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { VercelToolbar } from "@vercel/toolbar/next";
+import JsonLd from "./components/JsonLd";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "지금 | K-Beauty 트렌드",
-  description: "지금 가장 핫한 K-Beauty 트렌드와 제품을 만나보세요. 한국 화장품, 스킨케어, 메이크업 정보를 제공합니다.",
-  keywords: ["K-Beauty", "한국 화장품", "스킨케어", "메이크업", "뷰티 트렌드"],
+  title: "Jigeum | Best K-Beauty Products & Korean Skincare Trends 2025",
+  description: "Discover the hottest K-Beauty trends and top-rated Korean skincare products. COSRX Snail Mucin, Beauty of Joseon, Anua, TIRTIR & more. Curated by experts.",
+  keywords: ["K-Beauty", "Korean skincare", "COSRX", "Beauty of Joseon", "snail mucin", "glass skin", "Korean beauty products", "K-Beauty trends 2025", "best Korean skincare", "Anua", "TIRTIR", "Laneige"],
   openGraph: {
-    title: "지금 | K-Beauty 트렌드",
-    description: "지금 가장 핫한 K-Beauty 트렌드와 제품을 만나보세요.",
+    title: "Jigeum | Best K-Beauty Products & Korean Skincare Trends 2025",
+    description: "Discover the hottest K-Beauty trends and top-rated Korean skincare products. COSRX, Beauty of Joseon, Anua & more.",
     url: "https://jigeum.today",
-    siteName: "지금",
-    locale: "ko_KR",
+    siteName: "Jigeum",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://jigeum.today/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Jigeum - K-Beauty Magazine",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "지금 | K-Beauty 트렌드",
-    description: "지금 가장 핫한 K-Beauty 트렌드와 제품을 만나보세요.",
+    title: "Jigeum | Best K-Beauty Products & Korean Skincare Trends 2025",
+    description: "Discover the hottest K-Beauty trends and top-rated Korean skincare products.",
+    images: ["https://jigeum.today/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
     canonical: "https://jigeum.today",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 
@@ -61,6 +81,7 @@ export default function RootLayout({
         )}
       </head>
       <body className="antialiased">
+        <JsonLd />
         {children}
         {process.env.NODE_ENV === 'development' && <VercelToolbar />}
       </body>
