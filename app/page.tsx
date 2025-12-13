@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import TrendingTags from './components/TrendingTags';
@@ -15,10 +17,19 @@ import { products, Product } from './data/products';
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 500);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const filteredProducts = activeCategory === 'all' 
     ? products.slice(1)
     : products.filter(p => p.category === activeCategory);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <main className="min-h-screen bg-black">
@@ -32,27 +43,47 @@ export default function Home() {
             <TrendingTags />
             
             {/* Section Title */}
-            <div className="mb-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-6"
+            >
               <p className="text-pink-400 text-xs tracking-[0.2em] uppercase mb-2">The Edit</p>
               <h2 className="text-2xl lg:text-3xl font-serif text-white">
                 December&apos;s Must-Have Products
               </h2>
-            </div>
+            </motion.div>
 
             <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
             
             {/* Product Grid */}
             <section className="pb-24 lg:pb-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                {filteredProducts.map((product, index) => (
-                  <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                    index={index}
-                    onShowDetails={setSelectedProduct}
-                  />
-                ))}
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={activeCategory}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                >
+                  {filteredProducts.map((product, index) => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product} 
+                      index={index}
+                      onShowDetails={setSelectedProduct}
+                    />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+              
+              {filteredProducts.length === 0 && (
+                <div className="text-center py-16">
+                  <p className="text-gray-500">No products in this category yet.</p>
+                </div>
+              )}
             </section>
           </div>
 
@@ -105,26 +136,43 @@ export default function Home() {
       </footer>
 
       {/* Bottom Navigation - Mobile only */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 py-4 px-6 lg:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 py-3 px-6 lg:hidden safe-area-inset-bottom">
         <div className="flex justify-around">
-          <a href="#" className="text-center">
-            <span className="text-lg">📖</span>
-            <p className="text-[10px] text-gray-400 mt-1">Magazine</p>
-          </a>
-          <a href="https://www.youtube.com/results?search_query=k-beauty+trends+2025" target="_blank" rel="noopener noreferrer" className="text-center">
-            <span className="text-lg">📺</span>
-            <p className="text-[10px] text-gray-400 mt-1">Watch</p>
-          </a>
-          <a href="https://www.instagram.com/explore/tags/kbeauty/" target="_blank" rel="noopener noreferrer" className="text-center">
-            <span className="text-lg">📸</span>
-            <p className="text-[10px] text-gray-400 mt-1">Instagram</p>
-          </a>
-          <a href="https://www.tiktok.com/tag/kbeauty" target="_blank" rel="noopener noreferrer" className="text-center">
-            <span className="text-lg">🎵</span>
-            <p className="text-[10px] text-gray-400 mt-1">TikTok</p>
-          </a>
+          {[
+            { icon: '📖', label: 'Magazine', href: '#' },
+            { icon: '📺', label: 'Watch', href: 'https://www.youtube.com/results?search_query=k-beauty+trends+2025' },
+            { icon: '📸', label: 'Instagram', href: 'https://www.instagram.com/explore/tags/kbeauty/' },
+            { icon: '🎵', label: 'TikTok', href: 'https://www.tiktok.com/tag/kbeauty' },
+          ].map((item) => (
+            <a 
+              key={item.label}
+              href={item.href} 
+              target={item.href.startsWith('http') ? '_blank' : undefined}
+              rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="text-center py-1 px-3 rounded-lg active:bg-white/10 transition-colors"
+            >
+              <span className="text-lg block">{item.icon}</span>
+              <p className="text-[10px] text-gray-400 mt-0.5">{item.label}</p>
+            </a>
+          ))}
         </div>
       </nav>
+
+      {/* Scroll to Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-20 lg:bottom-8 right-4 lg:right-8 w-12 h-12 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-30"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp size={20} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Feedback Widget */}
       <FeedbackWidget />

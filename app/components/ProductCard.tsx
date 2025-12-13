@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Youtube, Instagram, Info } from 'lucide-react';
+import { Youtube, Instagram, Info, ShoppingBag } from 'lucide-react';
 import { Product } from '../data/products';
 
 interface ProductCardProps {
@@ -19,44 +19,53 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
       className="group"
     >
       {/* Image */}
-      <div className="relative aspect-[4/5] overflow-hidden rounded-sm mb-4">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-lg mb-4 cursor-pointer" onClick={() => onShowDetails(product)}>
         <div 
-          className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 group-hover:scale-105 transition-transform duration-700"
+          className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 group-hover:scale-105 transition-transform duration-500"
           style={{
             backgroundImage: `url(${product.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         
         {/* Source Badge */}
         <a 
           href={product.source.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute top-3 left-3 px-2 py-1 bg-black/60 backdrop-blur-sm text-[10px] text-white rounded hover:bg-black/80 transition-colors"
+          onClick={(e) => e.stopPropagation()}
+          className="absolute top-3 left-3 px-2.5 py-1.5 bg-black/60 backdrop-blur-sm text-[10px] text-white rounded-full hover:bg-black/80 transition-colors flex items-center gap-1.5"
         >
+          <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
           {product.source.name} {product.source.rank && `#${product.source.rank}`}
         </a>
 
-        {/* Quick Actions - Show on Hover */}
-        <div className="absolute bottom-3 left-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Price Badge */}
+        <div className="absolute top-3 right-3 px-3 py-1.5 bg-white/90 text-black text-xs font-medium rounded-full">
+          {product.price}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="absolute bottom-3 left-3 right-3 flex gap-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <a 
             href={product.youtubeSearch}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1 py-2 bg-white/90 text-black text-xs rounded hover:bg-white transition-colors"
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-white text-black text-xs font-medium rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <Youtube size={12} /> Reviews
+            <Youtube size={14} /> Reviews
           </a>
           <a 
             href={product.instagramTag}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1 py-2 bg-white/90 text-black text-xs rounded hover:bg-white transition-colors"
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-white text-black text-xs font-medium rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <Instagram size={12} /> Posts
+            <Instagram size={14} /> Posts
           </a>
         </div>
       </div>
@@ -68,13 +77,16 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
           href={product.brandUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-pink-400 tracking-wider uppercase hover:text-pink-300 transition-colors"
+          className="text-xs text-pink-400 tracking-wider uppercase hover:text-pink-300 transition-colors inline-block"
         >
           {product.brand}
         </a>
 
         {/* Name */}
-        <h3 className="text-white font-serif text-lg leading-tight">
+        <h3 
+          className="text-white font-serif text-lg leading-tight cursor-pointer hover:text-pink-200 transition-colors"
+          onClick={() => onShowDetails(product)}
+        >
           {product.name}
         </h3>
 
@@ -83,22 +95,29 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
           {product.description}
         </p>
 
-        {/* Meta */}
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            {product.tiktokViews && <span>📱 {product.tiktokViews}</span>}
-            {product.instagramPosts && <span>📸 {product.instagramPosts}</span>}
-          </div>
-          <span className="text-white font-medium">{product.price}</span>
+        {/* Social Stats */}
+        <div className="flex items-center gap-3 text-xs text-gray-500 pt-1">
+          {product.tiktokViews && <span className="flex items-center gap-1">📱 {product.tiktokViews}</span>}
+          {product.instagramPosts && <span className="flex items-center gap-1">📸 {product.instagramPosts}</span>}
         </div>
 
-        {/* Details Button */}
-        <button
-          onClick={() => onShowDetails(product)}
-          className="flex items-center justify-center gap-2 w-full py-3 mt-3 border border-white/20 text-white text-xs tracking-wider uppercase hover:bg-white/5 transition-all"
-        >
-          <Info size={12} /> View Details
-        </button>
+        {/* Action Buttons */}
+        <div className="flex gap-2 pt-2">
+          <button
+            onClick={() => onShowDetails(product)}
+            className="flex-1 flex items-center justify-center gap-2 py-3 border border-white/20 text-white text-xs tracking-wider rounded-lg hover:bg-white/5 hover:border-white/40 transition-all"
+          >
+            <Info size={14} /> Details
+          </button>
+          <a
+            href={product.shopUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white text-black text-xs tracking-wider rounded-lg hover:bg-gray-100 transition-all font-medium"
+          >
+            <ShoppingBag size={14} /> Shop
+          </a>
+        </div>
       </div>
     </motion.article>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { products } from '../data/products';
 
 export default function HeroSection() {
@@ -15,9 +16,14 @@ export default function HeroSection() {
       {/* Featured Story */}
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         {/* Image */}
-        <div className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-sm">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-2xl group"
+        >
           <div 
-            className="absolute inset-0 bg-gradient-to-br from-pink-200 to-purple-200"
+            className="absolute inset-0 bg-gradient-to-br from-pink-200 to-purple-200 transition-transform duration-700 group-hover:scale-105"
             style={{
               backgroundImage: `url(${featuredProduct.image})`,
               backgroundSize: 'cover',
@@ -32,9 +38,9 @@ export default function HeroSection() {
               href={featuredProduct.source.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-xs text-white hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-xs text-white hover:bg-white/20 transition-colors"
             >
-              <span className="w-2 h-2 bg-green-400 rounded-full" />
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               {featuredProduct.source.name} #{featuredProduct.source.rank} • {featuredProduct.source.date}
             </a>
           </div>
@@ -45,22 +51,27 @@ export default function HeroSection() {
             <h2 className="text-2xl lg:text-4xl font-serif text-white mb-3 leading-tight">
               {featuredProduct.name}
             </h2>
-            <p className="text-gray-300 text-sm mb-4 max-w-md">
+            <p className="text-gray-300 text-sm mb-5 max-w-md line-clamp-2">
               {featuredProduct.description}
             </p>
             <a 
               href={featuredProduct.brandUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white text-sm border-b border-white/50 pb-1 hover:border-white transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-medium rounded-full hover:bg-gray-100 transition-colors"
             >
-              Discover {featuredProduct.brand} →
+              Discover {featuredProduct.brand} <ArrowRight size={16} />
             </a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Editorial Text */}
-        <div className="lg:pl-8">
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="lg:pl-8"
+        >
           <p className="text-pink-400 text-xs tracking-[0.2em] uppercase mb-4">Editor&apos;s Letter</p>
           <h3 className="text-3xl lg:text-5xl font-serif text-white leading-tight mb-6">
             The New Era of<br />
@@ -85,14 +96,19 @@ export default function HeroSection() {
               { value: '$3.6B', label: 'Q1 Exports' },
               { value: '53%', label: 'US Growth' },
               { value: '7.7M', label: '#KBeauty Posts' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl font-serif text-white">{stat.value}</p>
+            ].map((stat, i) => (
+              <motion.div 
+                key={stat.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+              >
+                <p className="text-2xl lg:text-3xl font-serif text-white">{stat.value}</p>
                 <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );
