@@ -127,7 +127,10 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:text-right">
-              <p className="text-xs text-gray-600">Rankings sourced from Olive Young, Hwahae, Coupang.</p>
+              <p className="text-xs text-pink-400/80 mb-2">🚧 This site is currently under construction</p>
+              <p className="text-xs text-gray-500">We do not sell products directly.</p>
+              <p className="text-xs text-gray-500">Jigeum is an information platform for K-Beauty trends.</p>
+              <p className="text-xs text-gray-600 mt-3">Rankings sourced from Olive Young, Hwahae, Coupang.</p>
               <p className="text-xs text-gray-700 mt-1">All product links are affiliate links.</p>
               <p className="text-xs text-gray-700 mt-4">© 2025 Jigeum. Issue 01.</p>
             </div>
