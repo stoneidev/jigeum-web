@@ -8,6 +8,7 @@ import CategoryTabs from './components/CategoryTabs';
 import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
 import Sidebar from './components/Sidebar';
+import FeedbackWidget from './components/FeedbackWidget';
 import { products, Product } from './data/products';
 
 export default function Home() {
@@ -120,6 +121,9 @@ export default function Home() {
           </a>
         </div>
       </nav>
+
+      {/* Feedback Widget */}
+      <FeedbackWidget />
     </main>
   );
 }

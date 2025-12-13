@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { VercelToolbar } from "@vercel/toolbar/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -61,6 +62,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
+        {process.env.NODE_ENV === 'development' && <VercelToolbar />}
       </body>
     </html>
   );
