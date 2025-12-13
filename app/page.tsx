@@ -1,65 +1,125 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import TrendingTags from './components/TrendingTags';
+import CategoryTabs from './components/CategoryTabs';
+import ProductCard from './components/ProductCard';
+import ProductModal from './components/ProductModal';
+import Sidebar from './components/Sidebar';
+import { products, Product } from './data/products';
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const filteredProducts = activeCategory === 'all' 
+    ? products.slice(1)
+    : products.filter(p => p.category === activeCategory);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-black">
+      <Header />
+      
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-0">
+          {/* Main Content */}
+          <div className="lg:col-span-8 lg:pr-8">
+            <HeroSection />
+            <TrendingTags />
+            
+            {/* Section Title */}
+            <div className="mb-8">
+              <p className="text-pink-400 text-xs tracking-[0.2em] uppercase mb-2">The Edit</p>
+              <h2 className="text-2xl lg:text-3xl font-serif text-white">
+                December&apos;s Must-Have Products
+              </h2>
+            </div>
+
+            <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
+            
+            {/* Product Grid */}
+            <section className="pb-24 lg:pb-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                {filteredProducts.map((product, index) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    index={index}
+                    onShowDetails={setSelectedProduct}
+                  />
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar - Desktop only */}
+          <aside className="hidden lg:block lg:col-span-4">
+            <Sidebar />
+          </aside>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+      </div>
+
+      {/* Product Modal */}
+      <ProductModal 
+        product={selectedProduct} 
+        onClose={() => setSelectedProduct(null)} 
+      />
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 px-4 lg:px-8 mb-16 lg:mb-0">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-2xl font-serif text-white mb-2">지금</h3>
+              <p className="text-gray-600 text-sm">The K-Beauty Magazine</p>
+            </div>
+            <div className="flex gap-8">
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Watch</p>
+                <div className="space-y-2">
+                  <a href="https://www.youtube.com/results?search_query=k-beauty+trends+2025" target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-400 hover:text-white transition-colors">YouTube</a>
+                  <a href="https://www.tiktok.com/tag/kbeauty" target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-400 hover:text-white transition-colors">TikTok</a>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Follow</p>
+                <div className="space-y-2">
+                  <a href="https://www.instagram.com/explore/tags/kbeauty/" target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-400 hover:text-white transition-colors">Instagram</a>
+                </div>
+              </div>
+            </div>
+            <div className="lg:text-right">
+              <p className="text-xs text-gray-600">Rankings sourced from Olive Young, Hwahae, Coupang.</p>
+              <p className="text-xs text-gray-700 mt-1">All product links are affiliate links.</p>
+              <p className="text-xs text-gray-700 mt-4">© 2025 Jigeum. Issue 01.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Bottom Navigation - Mobile only */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 py-4 px-6 lg:hidden">
+        <div className="flex justify-around">
+          <a href="#" className="text-center">
+            <span className="text-lg">📖</span>
+            <p className="text-[10px] text-gray-400 mt-1">Magazine</p>
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+          <a href="https://www.youtube.com/results?search_query=k-beauty+trends+2025" target="_blank" rel="noopener noreferrer" className="text-center">
+            <span className="text-lg">📺</span>
+            <p className="text-[10px] text-gray-400 mt-1">Watch</p>
+          </a>
+          <a href="https://www.instagram.com/explore/tags/kbeauty/" target="_blank" rel="noopener noreferrer" className="text-center">
+            <span className="text-lg">📸</span>
+            <p className="text-[10px] text-gray-400 mt-1">Instagram</p>
+          </a>
+          <a href="https://www.tiktok.com/tag/kbeauty" target="_blank" rel="noopener noreferrer" className="text-center">
+            <span className="text-lg">🎵</span>
+            <p className="text-[10px] text-gray-400 mt-1">TikTok</p>
           </a>
         </div>
-      </main>
-    </div>
+      </nav>
+    </main>
   );
 }
