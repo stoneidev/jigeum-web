@@ -70,8 +70,13 @@ function FeaturedArticleCard({ article, relatedProducts, index, onShowProduct }:
       className="group"
     >
       <div className="bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl overflow-hidden border border-white/10 hover:border-pink-500/30 transition-all duration-300">
-        {/* Article Header */}
-        <div className="relative">
+        {/* Article Header - Clickable Link to Source */}
+        <a
+          href={article.source.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block relative cursor-pointer"
+        >
           <div className="aspect-[21/9] overflow-hidden">
             <img
               src={article.image}
@@ -85,6 +90,14 @@ function FeaturedArticleCard({ article, relatedProducts, index, onShowProduct }:
           <div className="absolute top-4 left-4">
             <span className="px-3 py-1 bg-pink-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
               {article.category}
+            </span>
+          </div>
+
+          {/* Read Article Indicator */}
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="flex items-center gap-1 px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+              Read Article
+              <ExternalLink className="w-3 h-3" />
             </span>
           </div>
 
@@ -105,7 +118,7 @@ function FeaturedArticleCard({ article, relatedProducts, index, onShowProduct }:
               {article.subtitle}
             </p>
           </div>
-        </div>
+        </a>
 
         {/* Article Content */}
         <div className="p-6">
@@ -157,6 +170,17 @@ function FeaturedArticleCard({ article, relatedProducts, index, onShowProduct }:
               </div>
             </div>
           )}
+
+          {/* Read Full Article Button */}
+          <a
+            href={article.source.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 rounded-xl transition-colors mt-6"
+          >
+            Read Full Article
+            <ArrowRight className="w-4 h-4" />
+          </a>
 
           {/* Source */}
           <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
