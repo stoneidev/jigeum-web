@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
+import TrendArticles from './components/TrendArticles';
 import TrendingTags from './components/TrendingTags';
 import CategoryTabs from './components/CategoryTabs';
 import ProductCard from './components/ProductCard';
@@ -40,6 +41,10 @@ export default function Home() {
           {/* Main Content */}
           <div className="lg:col-span-8 lg:pr-8">
             <HeroSection />
+
+            {/* Featured Trend Articles */}
+            <TrendArticles onShowProduct={setSelectedProduct} />
+
             <TrendingTags />
             
             {/* Section Title */}
