@@ -1,8 +1,9 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Clock, ExternalLink, Sparkles } from 'lucide-react';
-import { getFeaturedArticles, TrendArticle } from '../data/trends';
+import { ArrowRight, ChevronLeft, ChevronRight, Clock, ExternalLink, Sparkles } from 'lucide-react';
+import { trendArticles, TrendArticle } from '../data/trends';
 import { products, Product } from '../data/products';
 
 interface TrendArticlesProps {
@@ -10,42 +11,103 @@ interface TrendArticlesProps {
 }
 
 export default function TrendArticles({ onShowProduct }: TrendArticlesProps) {
-  const featuredArticles = getFeaturedArticles();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const getRelatedProducts = (productIds: string[]) => {
     return products.filter(p => productIds.includes(p.id));
   };
 
+  const scrollToIndex = (index: number) => {
+    const newIndex = Math.max(0, Math.min(index, trendArticles.length - 1));
+    setActiveIndex(newIndex);
+    if (scrollRef.current) {
+      const cardWidth = scrollRef.current.offsetWidth;
+      scrollRef.current.scrollTo({
+        left: newIndex * (cardWidth * 0.85 + 16),
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const cardWidth = scrollRef.current.offsetWidth * 0.85 + 16;
+      const newIndex = Math.round(scrollRef.current.scrollLeft / cardWidth);
+      setActiveIndex(newIndex);
+    }
+  };
+
   return (
-    <section className="py-12 border-b border-white/10">
+    <section className="py-8 border-b border-white/10">
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-8"
+        className="flex items-center justify-between mb-4"
       >
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="w-4 h-4 text-pink-400" />
-          <p className="text-pink-400 text-xs tracking-[0.2em] uppercase">Trending Now</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-pink-400" />
+            <p className="text-pink-400 text-xs tracking-[0.2em] uppercase">Trending Now</p>
+          </div>
+          <h2 className="text-xl lg:text-2xl font-serif text-white">
+            K-Beauty Trends December 2025
+          </h2>
         </div>
-        <h2 className="text-2xl lg:text-3xl font-serif text-white">
-          K-Beauty Trends December 2025
-        </h2>
-        <p className="text-gray-400 text-sm mt-2">
-          The hottest Korean skincare trends taking over the beauty world
-        </p>
+
+        {/* Navigation Arrows */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => scrollToIndex(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            className="p-2 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="w-5 h-5 text-white" />
+          </button>
+          <button
+            onClick={() => scrollToIndex(activeIndex + 1)}
+            disabled={activeIndex === trendArticles.length - 1}
+            className="p-2 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            aria-label="Next"
+          >
+            <ChevronRight className="w-5 h-5 text-white" />
+          </button>
+        </div>
       </motion.div>
 
-      {/* Featured Articles Grid */}
-      <div className="space-y-8">
-        {featuredArticles.map((article, index) => (
-          <FeaturedArticleCard
+      {/* Carousel */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {trendArticles.map((article, index) => (
+          <CarouselCard
             key={article.id}
             article={article}
             relatedProducts={getRelatedProducts(article.relatedProductIds)}
-            index={index}
             onShowProduct={onShowProduct}
+            isActive={index === activeIndex}
+          />
+        ))}
+      </div>
+
+      {/* Dots Indicator */}
+      <div className="flex justify-center gap-2 mt-4">
+        {trendArticles.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              index === activeIndex
+                ? 'bg-pink-400 w-6'
+                : 'bg-white/20 hover:bg-white/40'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
@@ -53,156 +115,91 @@ export default function TrendArticles({ onShowProduct }: TrendArticlesProps) {
   );
 }
 
-interface FeaturedArticleCardProps {
+interface CarouselCardProps {
   article: TrendArticle;
   relatedProducts: Product[];
-  index: number;
   onShowProduct: (product: Product) => void;
+  isActive: boolean;
 }
 
-function FeaturedArticleCard({ article, relatedProducts, index, onShowProduct }: FeaturedArticleCardProps) {
+function CarouselCard({ article, relatedProducts, onShowProduct, isActive }: CarouselCardProps) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className="group"
+    <a
+      href={article.source.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`flex-shrink-0 w-[85%] md:w-[45%] lg:w-[40%] snap-start group cursor-pointer transition-all duration-300 ${
+        isActive ? 'opacity-100' : 'opacity-70'
+      }`}
     >
-      <div className="bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl overflow-hidden border border-white/10 hover:border-pink-500/30 transition-all duration-300">
-        {/* Article Header - Clickable Link to Source */}
-        <a
-          href={article.source.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block relative cursor-pointer"
-        >
-          <div className="aspect-[21/9] overflow-hidden">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-          </div>
+      <div className="bg-gradient-to-br from-white/5 to-white/[0.02] rounded-xl overflow-hidden border border-white/10 hover:border-pink-500/30 transition-all duration-300 h-full">
+        {/* Thumbnail Image */}
+        <div className="relative aspect-[16/9] overflow-hidden">
+          <img
+            src={article.image}
+            alt={article.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
           {/* Category Badge */}
-          <div className="absolute top-4 left-4">
-            <span className="px-3 py-1 bg-pink-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+          <div className="absolute top-3 left-3">
+            <span className="px-2 py-1 bg-pink-500/90 backdrop-blur-sm text-white text-[10px] font-medium rounded-full">
               {article.category}
             </span>
           </div>
 
-          {/* Read Article Indicator */}
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="flex items-center gap-1 px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-              Read Article
-              <ExternalLink className="w-3 h-3" />
+          {/* Read Indicator */}
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="flex items-center gap-1 px-2 py-1 bg-white/20 backdrop-blur-sm text-white text-[10px] rounded-full">
+              Read <ExternalLink className="w-3 h-3" />
             </span>
           </div>
 
-          {/* Article Title Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <div className="flex items-center gap-3 text-gray-400 text-xs mb-3">
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {article.readTime}
-              </span>
+          {/* Title Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <div className="flex items-center gap-2 text-gray-400 text-[10px] mb-2">
+              <Clock className="w-3 h-3" />
+              <span>{article.readTime}</span>
               <span>•</span>
-              <span>{article.date}</span>
+              <span>{article.source.name}</span>
             </div>
-            <h3 className="text-xl lg:text-2xl font-serif text-white mb-2 group-hover:text-pink-300 transition-colors">
+            <h3 className="text-sm lg:text-base font-medium text-white group-hover:text-pink-300 transition-colors line-clamp-2">
               {article.title}
             </h3>
-            <p className="text-gray-300 text-sm">
-              {article.subtitle}
-            </p>
           </div>
-        </a>
+        </div>
 
-        {/* Article Content */}
-        <div className="p-6">
-          <p className="text-gray-400 text-sm leading-relaxed mb-6">
-            {article.description}
-          </p>
-
-          {/* Highlights */}
-          <div className="mb-6">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Key Takeaways</p>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {article.highlights.map((highlight, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                  <span className="text-pink-400 mt-1">•</span>
-                  {highlight}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Related Products */}
-          {relatedProducts.length > 0 && (
-            <div className="border-t border-white/10 pt-6">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">Shop the Trend</p>
-              <div className="flex flex-wrap gap-3">
-                {relatedProducts.map((product) => (
+        {/* Related Products - Compact */}
+        {relatedProducts.length > 0 && (
+          <div className="p-3 border-t border-white/5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-gray-500 uppercase">Shop:</span>
+              <div className="flex -space-x-2">
+                {relatedProducts.slice(0, 3).map((product) => (
                   <button
                     key={product.id}
-                    onClick={() => onShowProduct(product)}
-                    className="flex items-center gap-3 bg-white/5 hover:bg-white/10 rounded-xl p-3 transition-colors group/product"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onShowProduct(product);
+                    }}
+                    className="w-8 h-8 rounded-full overflow-hidden border-2 border-black hover:border-pink-500 transition-colors relative z-10 hover:z-20"
+                    title={product.name}
                   >
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/10 flex-shrink-0">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-white text-sm font-medium group-hover/product:text-pink-300 transition-colors line-clamp-1">
-                        {product.brand}
-                      </p>
-                      <p className="text-gray-400 text-xs line-clamp-1">{product.name}</p>
-                      <p className="text-pink-400 text-xs font-medium">{product.price}</p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-gray-500 group-hover/product:text-pink-400 transition-colors ml-2" />
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
+              <ArrowRight className="w-3 h-3 text-gray-500 ml-auto" />
             </div>
-          )}
-
-          {/* Read Full Article Button */}
-          <a
-            href={article.source.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 rounded-xl transition-colors mt-6"
-          >
-            Read Full Article
-            <ArrowRight className="w-4 h-4" />
-          </a>
-
-          {/* Source */}
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
-            <div className="flex flex-wrap gap-2">
-              {article.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="px-2 py-1 bg-white/5 text-gray-400 text-xs rounded-full">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-            <a
-              href={article.source.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-gray-500 hover:text-pink-400 text-xs transition-colors"
-            >
-              Source: {article.source.name}
-              <ExternalLink className="w-3 h-3" />
-            </a>
           </div>
-        </div>
+        )}
       </div>
-    </motion.article>
+    </a>
   );
 }
