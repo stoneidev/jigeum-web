@@ -170,32 +170,36 @@ function CarouselCard({ article, relatedProducts, onShowProduct, isActive }: Car
           </div>
         </div>
 
-        {/* Related Products - Compact */}
+        {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="p-3 border-t border-white/5">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] text-gray-500 uppercase">Shop:</span>
-              <div className="flex -space-x-2">
-                {relatedProducts.slice(0, 3).map((product) => (
-                  <button
-                    key={product.id}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onShowProduct(product);
-                    }}
-                    className="w-8 h-8 rounded-full overflow-hidden border-2 border-black hover:border-pink-500 transition-colors relative z-10 hover:z-20"
-                    title={product.name}
-                  >
+            <p className="text-[10px] text-gray-500 uppercase mb-2">Shop the Trend</p>
+            <div className="flex gap-2">
+              {relatedProducts.slice(0, 2).map((product) => (
+                <button
+                  key={product.id}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onShowProduct(product);
+                  }}
+                  className="flex items-center gap-2 flex-1 bg-white/5 hover:bg-white/10 rounded-lg p-2 transition-colors group/product"
+                >
+                  <div className="w-10 h-10 rounded-md overflow-hidden bg-white/10 flex-shrink-0">
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
-                  </button>
-                ))}
-              </div>
-              <ArrowRight className="w-3 h-3 text-gray-500 ml-auto" />
+                  </div>
+                  <div className="text-left min-w-0 flex-1">
+                    <p className="text-white text-xs font-medium truncate group-hover/product:text-pink-300 transition-colors">
+                      {product.brand}
+                    </p>
+                    <p className="text-pink-400 text-[10px] font-medium">{product.price}</p>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         )}
