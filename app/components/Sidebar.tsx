@@ -29,9 +29,9 @@ const beautyTips = [
 ];
 
 const hotIngredients = [
-  { name: 'PDRN', description: 'Salmon DNA for regeneration', trend: '+340%' },
-  { name: 'Spicules', description: 'Natural microneedling', trend: '+280%' },
-  { name: 'Mugwort', description: 'Soothing K-herb', trend: '+156%' },
+  { name: 'PDRN', description: 'Salmon DNA for regeneration', trend: '+340%', slug: 'pdrn' },
+  { name: 'Spicules', description: 'Natural microneedling', trend: '+280%', slug: 'spicules' },
+  { name: 'Mugwort', description: 'Soothing K-herb', trend: '+156%', slug: 'mugwort' },
 ];
 
 export default function Sidebar() {
@@ -92,15 +92,19 @@ export default function Sidebar() {
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 + i * 0.05 }}
-              className="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
             >
-              <div className="flex-1">
-                <p className="text-white text-sm font-medium">{ingredient.name}</p>
-                <p className="text-gray-500 text-[10px]">{ingredient.description}</p>
-              </div>
-              <span className="text-green-400 text-xs font-medium bg-green-400/10 px-2 py-1 rounded-full">
-                {ingredient.trend}
-              </span>
+              <Link
+                href={`/ingredients/${ingredient.slug}`}
+                className="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
+              >
+                <div className="flex-1">
+                  <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">{ingredient.name}</p>
+                  <p className="text-gray-500 text-[10px]">{ingredient.description}</p>
+                </div>
+                <span className="text-green-400 text-xs font-medium bg-green-400/10 px-2 py-1 rounded-full">
+                  {ingredient.trend}
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>

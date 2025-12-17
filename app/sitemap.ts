@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { products } from './data/products'
 import { getAllTipSlugs } from './data/tips'
+import { getAllIngredientSlugs } from './data/ingredients'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const productUrls = products.map((product) => ({
@@ -12,6 +13,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const tipUrls = getAllTipSlugs().map((slug) => ({
     url: `https://jigeum.today/tips/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.9,
+  }))
+
+  const ingredientUrls = getAllIngredientSlugs().map((slug) => ({
+    url: `https://jigeum.today/ingredients/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.9,
@@ -43,6 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...tipUrls,
+    ...ingredientUrls,
     ...productUrls,
   ]
 }
