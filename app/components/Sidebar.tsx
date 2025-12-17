@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Droplets, Star, ArrowRight } from 'lucide-react';
 import { products } from '../data/products';
@@ -11,16 +12,19 @@ const beautyTips = [
     title: '7-Skin Method',
     description: 'Layer your toner 7 times for intense hydration',
     icon: Droplets,
+    slug: '7-skin-method',
   },
   {
     title: 'Sandwich Technique',
     description: 'Apply retinol between two layers of moisturizer',
     icon: Sparkles,
+    slug: 'sandwich-technique',
   },
   {
     title: 'Slugging',
     description: 'Seal your routine with petrolatum overnight',
     icon: Star,
+    slug: 'slugging',
   },
 ];
 
@@ -118,19 +122,22 @@ export default function Sidebar() {
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 + i * 0.05 }}
-              className="group"
             >
-              <div className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors">
-                <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+              <Link
+                href={`/tips/${tip.slug}`}
+                className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-500/20 transition-colors">
                   <tip.icon className="w-4 h-4 text-pink-400" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">
                     {tip.title}
                   </p>
                   <p className="text-gray-500 text-xs mt-0.5">{tip.description}</p>
                 </div>
-              </div>
+                <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-pink-400 transition-colors mt-1" />
+              </Link>
             </motion.div>
           ))}
         </div>
