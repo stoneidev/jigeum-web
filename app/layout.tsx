@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import JsonLd from "./components/JsonLd";
+import Analytics from "./components/Analytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -81,6 +82,7 @@ export default function RootLayout({
         )}
       </head>
       <body className="antialiased">
+        <Analytics />
         <JsonLd />
         {children}
         {process.env.NODE_ENV === 'development' && <VercelToolbar />}
