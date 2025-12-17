@@ -6,7 +6,6 @@ import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import TrendArticles from './components/TrendArticles';
-import TrendingTags from './components/TrendingTags';
 import CategoryTabs from './components/CategoryTabs';
 import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
@@ -45,22 +44,15 @@ export default function Home() {
             {/* Featured Trend Articles */}
             <TrendArticles onShowProduct={setSelectedProduct} />
 
-            <TrendingTags />
-            
-            {/* Section Title */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mb-6"
-            >
-              <p className="text-pink-400 text-xs tracking-[0.2em] uppercase mb-2">The Edit</p>
-              <h2 className="text-2xl lg:text-3xl font-serif text-white">
-                December&apos;s Must-Have Products
-              </h2>
-            </motion.div>
-
-            <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
+            {/* Products Section - Compact Header */}
+            <div className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
+              <div>
+                <h2 className="text-lg lg:text-xl font-serif text-white">
+                  Must-Have Products
+                </h2>
+              </div>
+              <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
+            </div>
             
             {/* Product Grid */}
             <section className="pb-24 lg:pb-16">
