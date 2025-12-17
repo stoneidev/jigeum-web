@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { products } from '../data/products';
 
 export default function HeroSection() {
   const featuredProduct = products[0];
+  const [imageError, setImageError] = useState(false);
 
   return (
     <motion.section 
@@ -22,14 +24,21 @@ export default function HeroSection() {
           transition={{ duration: 0.6 }}
           className="relative aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-2xl group"
         >
-          <div 
-            className="absolute inset-0 bg-gradient-to-br from-pink-200 to-purple-200 transition-transform duration-700 group-hover:scale-105"
-            style={{
-              backgroundImage: `url(${featuredProduct.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          />
+          {!imageError ? (
+            <img
+              src={featuredProduct.image}
+              alt={featuredProduct.name}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+              <div className="text-center text-gray-400">
+                <p className="text-sm">Cover Image</p>
+                <p className="text-xs mt-1">{featuredProduct.name}</p>
+              </div>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           
           {/* Source Badge */}

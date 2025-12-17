@@ -49,11 +49,31 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-10">
-            {['skincare', 'makeup', 'devices'].map((item) => (
+            {['skincare', 'makeup', 'device'].map((item) => (
               <a 
                 key={item}
-                href={`#${item}`} 
-                className="relative text-gray-400 hover:text-white transition-colors text-sm tracking-wide uppercase group"
+                href={`#products`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById('products');
+                  if (element) {
+                    const headerOffset = 100;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    // 카테고리 필터도 함께 변경
+                    const categoryMap: Record<string, string> = {
+                      'skincare': 'skincare',
+                      'makeup': 'makeup',
+                      'device': 'device'
+                    };
+                    if (categoryMap[item]) {
+                      // CategoryTabs 컴포넌트와 연동하기 위해 이벤트 발생
+                      window.dispatchEvent(new CustomEvent('categoryChange', { detail: categoryMap[item] }));
+                    }
+                  }
+                }}
+                className="relative text-gray-400 hover:text-white transition-colors text-sm tracking-wide uppercase group min-h-[44px] flex items-center"
               >
                 {item}
                 <span className="absolute -bottom-1 left-0 w-0 h-px bg-pink-400 transition-all group-hover:w-full" />

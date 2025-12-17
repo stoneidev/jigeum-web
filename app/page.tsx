@@ -25,11 +25,30 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 헤더 네비게이션에서 카테고리 변경 이벤트 리스너
+  useEffect(() => {
+    const handleCategoryChange = (e: CustomEvent) => {
+      setActiveCategory(e.detail);
+    };
+    window.addEventListener('categoryChange', handleCategoryChange as EventListener);
+    return () => window.removeEventListener('categoryChange', handleCategoryChange as EventListener);
+  }, []);
+
   const filteredProducts = activeCategory === 'all' 
     ? products.slice(1)
     : products.filter(p => p.category === activeCategory);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
 
   return (
     <main className="min-h-screen bg-black">
@@ -45,7 +64,7 @@ export default function Home() {
             <TrendArticles onShowProduct={setSelectedProduct} />
 
             {/* Products Section - Compact Header */}
-            <div className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
+            <div id="products" className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
               <div>
                 <h2 className="text-lg lg:text-xl font-serif text-white">
                   Must-Have Products
@@ -139,7 +158,7 @@ export default function Home() {
       <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 py-3 px-6 lg:hidden safe-area-inset-bottom">
         <div className="flex justify-around">
           {[
-            { icon: '📖', label: 'Magazine', href: '#' },
+            { icon: '📖', label: 'Magazine', href: '#', onClick: () => scrollToTop() },
             { icon: '📺', label: 'Watch', href: 'https://www.youtube.com/results?search_query=k-beauty+trends+2025' },
             { icon: '📸', label: 'Instagram', href: 'https://www.instagram.com/explore/tags/kbeauty/' },
             { icon: '🎵', label: 'TikTok', href: 'https://www.tiktok.com/tag/kbeauty' },
@@ -147,9 +166,10 @@ export default function Home() {
             <a 
               key={item.label}
               href={item.href} 
+              onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick?.(); } : undefined}
               target={item.href.startsWith('http') ? '_blank' : undefined}
               rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="text-center py-1 px-3 rounded-lg active:bg-white/10 transition-colors"
+              className="text-center py-2 px-4 rounded-lg active:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex flex-col items-center justify-center"
             >
               <span className="text-lg block">{item.icon}</span>
               <p className="text-[10px] text-gray-400 mt-0.5">{item.label}</p>

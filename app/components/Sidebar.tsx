@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Droplets, Star, ArrowRight } from 'lucide-react';
@@ -35,6 +36,8 @@ const hotIngredients = [
 ];
 
 export default function Sidebar() {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div className="sticky top-24 space-y-6 py-8 pl-8 border-l border-white/10">
       {/* Editor's Pick - Featured Card */}
@@ -52,11 +55,21 @@ export default function Sidebar() {
           className="block group"
         >
           <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-3">
-            <img
-              src={editorsPick.image}
-              alt={editorsPick.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            {!imageError ? (
+              <img
+                src={editorsPick.image}
+                alt={editorsPick.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                  <Star size={24} className="mx-auto mb-2 opacity-50" />
+                  <p className="text-xs">Image unavailable</p>
+                </div>
+              </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3">
               <p className="text-pink-400 text-[10px] uppercase tracking-wider mb-1">

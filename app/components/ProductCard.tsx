@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Youtube, Instagram, Info, ShoppingBag } from 'lucide-react';
 import { Product } from '../data/products';
@@ -11,6 +12,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index, onShowDetails }: ProductCardProps) {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -20,14 +23,21 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
     >
       {/* Image */}
       <div className="relative aspect-[4/5] overflow-hidden rounded-lg mb-4 cursor-pointer" onClick={() => onShowDetails(product)}>
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 group-hover:scale-105 transition-transform duration-500"
-          style={{
-            backgroundImage: `url(${product.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        />
+        {!imageError ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+            <div className="text-center text-gray-500">
+              <ShoppingBag size={32} className="mx-auto mb-2 opacity-50" />
+              <p className="text-xs">Image unavailable</p>
+            </div>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         
         {/* Source Badge */}
@@ -105,7 +115,7 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
         <div className="flex gap-2 pt-2">
           <button
             onClick={() => onShowDetails(product)}
-            className="flex-1 flex items-center justify-center gap-2 py-3 border border-white/20 text-white text-xs tracking-wider rounded-lg hover:bg-white/5 hover:border-white/40 transition-all"
+            className="flex-1 flex items-center justify-center gap-2 py-3 border border-white/20 text-white text-xs tracking-wider rounded-lg hover:bg-white/5 hover:border-white/40 transition-all min-h-[44px]"
           >
             <Info size={14} /> Details
           </button>
@@ -113,7 +123,7 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
             href={product.shopUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white text-black text-xs tracking-wider rounded-lg hover:bg-gray-100 transition-all font-medium"
+            className="flex-1 flex items-center justify-center gap-2 py-3 bg-white text-black text-xs tracking-wider rounded-lg hover:bg-gray-100 transition-all font-medium min-h-[44px]"
           >
             <ShoppingBag size={14} /> Shop
           </a>
