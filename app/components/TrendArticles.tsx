@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, ExternalLink, Sparkles } from 'lucide-react';
 import { trendArticles, TrendArticle } from '../data/trends';
@@ -125,7 +125,9 @@ interface TrendArticlesProps {
 
 export default function TrendArticles({ onShowProduct }: TrendArticlesProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const getRelatedProducts = (productIds: string[]) => {
     return products.filter(p => productIds.includes(p.id));
@@ -150,6 +152,35 @@ export default function TrendArticles({ onShowProduct }: TrendArticlesProps) {
       setActiveIndex(newIndex);
     }
   };
+
+  // 자동 스크롤 기능
+  useEffect(() => {
+    if (isPaused || trendArticles.length <= 1) return;
+
+    autoScrollIntervalRef.current = setInterval(() => {
+      setActiveIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % trendArticles.length;
+        if (scrollRef.current) {
+          const cardWidth = scrollRef.current.offsetWidth;
+          scrollRef.current.scrollTo({
+            left: nextIndex * (cardWidth * 0.85 + 16),
+            behavior: 'smooth'
+          });
+        }
+        return nextIndex;
+      });
+    }, 5000); // 5초마다 자동 스크롤
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+    };
+  }, [isPaused, trendArticles.length]);
+
+  // 마우스 호버 시 자동 스크롤 일시 정지
+  const handleMouseEnter = () => setIsPaused(true);
+  const handleMouseLeave = () => setIsPaused(false);
 
   return (
     <section className="py-8 border-b border-white/10">
@@ -195,6 +226,8 @@ export default function TrendArticles({ onShowProduct }: TrendArticlesProps) {
       <div
         ref={scrollRef}
         onScroll={handleScroll}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
