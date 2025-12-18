@@ -80,7 +80,7 @@ export default function Sidebar() {
               </p>
             </div>
           </div>
-          <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">
+          <p className="text-gray-300 text-xs leading-relaxed line-clamp-2 font-normal">
             {editorsPick.description}
           </p>
           <p className="text-pink-400 text-sm font-medium mt-2 flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -111,8 +111,8 @@ export default function Sidebar() {
                 className="flex items-center gap-3 p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-colors group"
               >
                 <div className="flex-1">
-                  <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">{ingredient.name}</p>
-                  <p className="text-gray-500 text-[10px]">{ingredient.description}</p>
+                  <p className="text-white text-sm font-semibold group-hover:text-pink-300 transition-colors">{ingredient.name}</p>
+                  <p className="text-gray-400 text-[10px] font-normal">{ingredient.description}</p>
                 </div>
                 <span className="text-green-400 text-xs font-medium bg-green-400/10 px-2 py-1 rounded-full">
                   {ingredient.trend}
@@ -148,10 +148,10 @@ export default function Sidebar() {
                   <tip.icon className="w-4 h-4 text-pink-400" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-white text-sm font-medium group-hover:text-pink-300 transition-colors">
+                  <p className="text-white text-sm font-semibold group-hover:text-pink-300 transition-colors">
                     {tip.title}
                   </p>
-                  <p className="text-gray-500 text-xs mt-0.5">{tip.description}</p>
+                  <p className="text-gray-400 text-xs mt-0.5 font-normal">{tip.description}</p>
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-pink-400 transition-colors mt-1" />
               </Link>
@@ -176,7 +176,7 @@ export default function Sidebar() {
             <p className="text-gray-500 text-[10px]">Issue 01 • December 2025</p>
           </div>
         </div>
-        <p className="text-[10px] text-gray-600 leading-relaxed">
+        <p className="text-[10px] text-gray-500 leading-relaxed font-normal">
           Your curated guide to Korean beauty trends. Data sourced from Olive Young, Hwahae & Coupang.
         </p>
       </motion.div>

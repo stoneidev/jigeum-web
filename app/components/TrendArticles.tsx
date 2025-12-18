@@ -62,13 +62,13 @@ function CarouselCard({ article, relatedProducts, onShowProduct, isActive }: Car
 
           {/* Title Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            <div className="flex items-center gap-2 text-gray-400 text-[10px] mb-2">
+            <div className="flex items-center gap-2 text-gray-300 text-[10px] mb-2 font-normal">
               <Clock className="w-3 h-3" />
               <span>{article.readTime}</span>
               <span>•</span>
               <span>{article.source.name}</span>
             </div>
-            <h3 className="text-sm lg:text-base font-medium text-white group-hover:text-pink-300 transition-colors line-clamp-2">
+            <h3 className="text-sm lg:text-base font-semibold text-white group-hover:text-pink-300 transition-colors line-clamp-2">
               {article.title}
             </h3>
           </div>
@@ -77,7 +77,7 @@ function CarouselCard({ article, relatedProducts, onShowProduct, isActive }: Car
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="p-3 border-t border-white/5">
-            <p className="text-[10px] text-gray-500 uppercase mb-2">Shop the Trend</p>
+            <p className="text-[10px] text-gray-400 uppercase mb-2 font-medium">Shop the Trend</p>
             <div className="flex gap-2">
               {relatedProducts.slice(0, 2).map((product) => (
                 <button
@@ -104,7 +104,7 @@ function CarouselCard({ article, relatedProducts, onShowProduct, isActive }: Car
                     )}
                   </div>
                   <div className="text-left min-w-0 flex-1">
-                    <p className="text-white text-xs font-medium truncate group-hover/product:text-pink-300 transition-colors">
+                    <p className="text-white text-xs font-semibold truncate group-hover/product:text-pink-300 transition-colors">
                       {product.brand}
                     </p>
                     <p className="text-pink-400 text-[10px] font-medium">{product.price}</p>

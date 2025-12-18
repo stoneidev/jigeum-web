@@ -120,7 +120,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
                 <span className="w-4 h-px bg-pink-400" /> About
               </h3>
-              <p className="text-gray-300 text-sm leading-relaxed">{product.description}</p>
+              <p className="text-gray-200 text-sm leading-relaxed font-normal">{product.description}</p>
             </div>
 
             {/* Key Ingredients */}
@@ -130,7 +130,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {product.details.keyIngredients.map((ingredient) => (
-                  <span key={ingredient} className="px-3 py-1.5 bg-gradient-to-r from-pink-500/10 to-purple-500/10 text-gray-300 text-xs rounded-full border border-white/5">
+                  <span key={ingredient} className="px-3 py-1.5 bg-gradient-to-r from-pink-500/10 to-purple-500/10 text-gray-200 text-xs rounded-full border border-white/5 font-normal">
                     {ingredient}
                   </span>
                 ))}
@@ -144,7 +144,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               </h3>
               <ul className="space-y-2">
                 {product.details.highlights.map((highlight, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
+                  <li key={i} className="flex items-start gap-3 text-sm text-gray-200 font-normal">
                     <span className="w-5 h-5 bg-pink-500/20 rounded-full flex items-center justify-center text-pink-400 text-xs flex-shrink-0 mt-0.5">✓</span>
                     {highlight}
                   </li>
@@ -155,12 +155,12 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             {/* Skin Type & How to Use */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/5 rounded-xl p-4">
-                <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-2">Skin Type</h3>
-                <p className="text-gray-300 text-sm">{product.details.skinType}</p>
+                <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-2 font-medium">Skin Type</h3>
+                <p className="text-gray-200 text-sm font-normal">{product.details.skinType}</p>
               </div>
               <div className="bg-white/5 rounded-xl p-4">
-                <h3 className="text-xs text-gray-500 uppercase tracking-wider mb-2">How to Use</h3>
-                <p className="text-gray-300 text-sm">{product.details.howToUse}</p>
+                <h3 className="text-xs text-gray-400 uppercase tracking-wider mb-2 font-medium">How to Use</h3>
+                <p className="text-gray-200 text-sm font-normal">{product.details.howToUse}</p>
               </div>
             </div>
 

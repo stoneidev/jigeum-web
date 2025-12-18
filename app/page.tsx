@@ -66,7 +66,7 @@ export default function Home() {
             {/* Products Section - Compact Header */}
             <div id="products" className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
               <div>
-                <h2 className="text-lg lg:text-xl font-serif text-white">
+                <h2 className="text-lg lg:text-xl font-serif text-white font-medium">
                   Must-Have Products
                 </h2>
               </div>
@@ -124,7 +124,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-2xl font-serif text-white mb-2">지금</h3>
+              <h3 
+                className="text-2xl mb-2 font-medium"
+                style={{ 
+                  fontFamily: "'Noto Sans KR', sans-serif",
+                  background: 'linear-gradient(135deg, #CD2E3A 0%, #0047A0 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                지금
+              </h3>
               <p className="text-gray-600 text-sm">The K-Beauty Magazine</p>
             </div>
             <div className="flex gap-8">
@@ -155,7 +166,12 @@ export default function Home() {
       </footer>
 
       {/* Bottom Navigation - Mobile only */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t border-white/10 py-3 px-6 lg:hidden safe-area-inset-bottom">
+      <nav 
+        className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t py-3 px-6 lg:hidden safe-area-inset-bottom"
+        style={{
+          borderTopColor: 'rgba(205, 46, 58, 0.3)'
+        }}
+      >
         <div className="flex justify-around">
           {[
             { icon: '📖', label: 'Magazine', href: '#', onClick: () => scrollToTop() },

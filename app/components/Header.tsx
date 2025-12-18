@@ -17,13 +17,21 @@ export default function Header() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className={`sticky top-0 z-40 transition-all duration-300 ${
-        scrolled ? 'bg-black/95 backdrop-blur-xl border-b border-white/10' : 'border-b border-white/10'
+        scrolled ? 'bg-black/95 backdrop-blur-xl border-b' : 'border-b'
       }`}
+      style={{
+        borderColor: scrolled ? 'rgba(255, 255, 255, 0.1)' : 'rgba(205, 46, 58, 0.3)'
+      }}
     >
       {/* Top Bar - Hide on scroll */}
-      <div className={`bg-gradient-to-r from-pink-500/10 to-purple-500/10 py-2 text-center transition-all duration-300 ${
-        scrolled ? 'h-0 py-0 overflow-hidden opacity-0' : 'opacity-100'
-      }`}>
+      <div 
+        className={`py-2 text-center transition-all duration-300 ${
+          scrolled ? 'h-0 py-0 overflow-hidden opacity-0' : 'opacity-100'
+        }`}
+        style={{
+          background: scrolled ? 'transparent' : 'linear-gradient(90deg, rgba(205, 46, 58, 0.15) 0%, rgba(0, 71, 160, 0.15) 100%)'
+        }}
+      >
         <p className="text-xs text-gray-400">
           December 2025 Issue • Data sourced from Olive Young, Hwahae, Coupang
         </p>
@@ -39,9 +47,20 @@ export default function Header() {
             <p className={`tracking-[0.3em] text-gray-500 uppercase transition-all ${
               scrolled ? 'text-[8px] hidden' : 'text-[10px]'
             }`}>The</p>
-            <h1 className={`font-serif font-light text-white tracking-wide transition-all ${
-              scrolled ? 'text-2xl' : 'text-3xl lg:text-4xl'
-            }`}>지금</h1>
+            <h1 
+              className={`tracking-wide transition-all font-medium ${
+                scrolled ? 'text-xl' : 'text-2xl lg:text-3xl'
+              }`} 
+              style={{ 
+                fontFamily: "'Noto Sans KR', sans-serif",
+                background: 'linear-gradient(135deg, #CD2E3A 0%, #0047A0 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              지금
+            </h1>
             <p className={`tracking-[0.2em] text-gray-500 uppercase transition-all ${
               scrolled ? 'text-[8px]' : 'text-[10px]'
             }`}>K-Beauty Magazine</p>

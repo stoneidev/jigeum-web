@@ -57,10 +57,10 @@ export default function HeroSection() {
           {/* Content Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-10">
             <p className="text-pink-400 text-xs tracking-[0.2em] uppercase mb-2">Cover Story</p>
-            <h2 className="text-2xl lg:text-4xl font-serif text-white mb-3 leading-tight">
+            <h2 className="text-2xl lg:text-4xl font-serif text-white mb-3 leading-tight font-medium">
               {featuredProduct.name}
             </h2>
-            <p className="text-gray-300 text-sm mb-5 max-w-md line-clamp-2">
+            <p className="text-gray-200 text-sm mb-5 max-w-md line-clamp-2 font-normal">
               {featuredProduct.description}
             </p>
             <a 
@@ -88,7 +88,7 @@ export default function HeroSection() {
               Korean Beauty
             </span>
           </h3>
-          <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
+          <div className="space-y-4 text-gray-300 text-sm leading-relaxed font-normal">
             <p>
               In 2025, Korea solidified its position as the world&apos;s second-largest cosmetics exporter, 
               with $3.6 billion in Q1 alone. The U.S. market saw a remarkable 53% year-over-year growth.
@@ -112,8 +112,8 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + i * 0.1 }}
               >
-                <p className="text-2xl lg:text-3xl font-serif text-white">{stat.value}</p>
-                <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
+                <p className="text-2xl lg:text-3xl font-serif text-white font-medium">{stat.value}</p>
+                <p className="text-xs text-gray-400 mt-1 font-normal">{stat.label}</p>
               </motion.div>
             ))}
           </div>

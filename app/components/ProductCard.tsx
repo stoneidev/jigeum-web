@@ -87,26 +87,26 @@ export default function ProductCard({ product, index, onShowDetails }: ProductCa
           href={product.brandUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-pink-400 tracking-wider uppercase hover:text-pink-300 transition-colors inline-block"
+          className="text-xs text-pink-400 tracking-wider uppercase hover:text-pink-300 transition-colors inline-block font-medium"
         >
           {product.brand}
         </a>
 
         {/* Name */}
         <h3 
-          className="text-white font-serif text-lg leading-tight cursor-pointer hover:text-pink-200 transition-colors"
+          className="text-white font-serif text-lg leading-tight cursor-pointer hover:text-pink-200 transition-colors font-medium"
           onClick={() => onShowDetails(product)}
         >
           {product.name}
         </h3>
 
         {/* Description */}
-        <p className="text-gray-500 text-xs leading-relaxed line-clamp-2">
+        <p className="text-gray-400 text-xs leading-relaxed line-clamp-2 font-normal">
           {product.description}
         </p>
 
         {/* Social Stats */}
-        <div className="flex items-center gap-3 text-xs text-gray-500 pt-1">
+        <div className="flex items-center gap-3 text-xs text-gray-400 pt-1 font-normal">
           {product.tiktokViews && <span className="flex items-center gap-1">📱 {product.tiktokViews}</span>}
           {product.instagramPosts && <span className="flex items-center gap-1">📸 {product.instagramPosts}</span>}
         </div>
