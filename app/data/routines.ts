@@ -26,80 +26,80 @@ export const routines: Routine[] = [
     title: '2025 Morning Routine',
     titleKo: '2025 모닝 루틴',
     type: 'morning',
-    description: 'The modern Korean morning routine focuses on protection and lightweight hydration. In 2025, the trend is "Skip-Care" – using fewer, smarter products.',
+    description: 'The 2025 "Skin Flooding" morning routine. Focuses on layering lightweight hydration to create a glass-like barrier that lasts all day.',
     totalTime: '5-7 min',
     steps: [
       {
         order: 1,
-        name: 'Gentle Cleanse',
-        nameKo: '세안',
-        description: 'Use lukewarm water only, or a gentle low-pH cleanser if needed. Over-cleansing strips natural oils.',
+        name: 'Water Cleanse',
+        nameKo: '물 세안',
+        description: 'Skip the cleanser. Just lukewarm water to refresh the skin without stripping your overnight barrier.',
         duration: '30 sec',
         tips: [
-          'Water-only cleanse is trending in Korea',
-          'If using cleanser, choose sulfate-free',
-          'Pat dry, don\'t rub'
+          'Maintains healthy skin microbiome',
+          'Prevents morning dehydration',
+          'Use cleanser only if you have oily skin'
         ],
         optional: true
       },
       {
         order: 2,
-        name: 'Hydrating Toner',
-        nameKo: '토너',
-        description: 'Prep skin with a hydrating toner. The 7-skin method is out – one layer is enough with modern formulas.',
+        name: 'First Essence / Toner',
+        nameKo: '퍼스트 에센스',
+        description: 'The first layer of "flooding". Apply on damp skin to trap moisture instantly.',
         duration: '30 sec',
         tips: [
-          'Pat into skin, don\'t wipe',
-          'Look for hyaluronic acid or centella',
-          'Can skip if using essence'
+          'Apply within 3 seconds of drying',
+          'Press deeply into pores',
+          'Look for fermented ingredients (Galactomyces)'
         ],
         recommendedProducts: ['Anua Heartleaf 77% Soothing Toner'],
         optional: true
       },
       {
         order: 3,
-        name: 'Serum / Essence',
-        nameKo: '세럼 / 에센스',
-        description: 'One targeted treatment is all you need. Choose based on your main concern: brightening, hydration, or anti-aging.',
+        name: 'Vitamin C / PDRN',
+        nameKo: '비타민 C / PDRN',
+        description: '2025\'s power couple. Vitamin C for protection, or PDRN for elasticity and healing.',
         duration: '1 min',
         tips: [
-          'Vitamin C in the morning for brightening',
-          'Niacinamide for pore control',
-          '2-3 drops is enough'
+          'Vitamin C boosts sunscreen efficacy',
+          'PDRN is great for sensitive mornings',
+          'Wait 1 min before next step'
         ],
-        recommendedProducts: ['Beauty of Joseon Glow Serum', 'COSRX Snail Mucin']
+        recommendedProducts: ['Medicube PDRN Pink Peptide Serum']
       },
       {
         order: 4,
-        name: 'Moisturizer',
-        nameKo: '수분크림',
-        description: 'Lock in hydration with a lightweight moisturizer. Gel types are popular for humid weather.',
+        name: 'Barrier Cream',
+        nameKo: '장벽 크림',
+        description: 'Seal the hydration. New-gen barrier creams are light enough for day use but lock moisture like a mask.',
         duration: '1 min',
         tips: [
-          'Gel for oily/combo skin',
-          'Cream for dry skin',
-          'Skip if sunscreen is moisturizing enough'
+          'Look for Ceramides + Phytosterol',
+          'Gel-cream texture is best for makeup prep',
+          'Don\'t forget the neck'
         ],
-        optional: true
+        recommendedProducts: ['COSRX Snail Mucin Essence']
       },
       {
         order: 5,
-        name: 'Sunscreen',
+        name: 'Sunscreen (SPF 50+)',
         nameKo: '선크림',
-        description: 'Non-negotiable! Korean sunscreens are lightweight and double as primers. SPF 50+ PA++++ is standard.',
+        description: 'The final shield. 2025 sunscreens are essentially moisturizers with top-tier UV filters.',
         duration: '1 min',
         tips: [
-          'Apply generously – 2 finger lengths',
-          'Reapply every 2-3 hours outdoors',
-          'Look for "no white cast" formulas'
+          'Choose "Reef Safe" formulas',
+          'No white cast is the new standard',
+          'Skip moisturizer if SPF is hydrating enough'
         ],
         recommendedProducts: ['Beauty of Joseon Relief Sun']
       }
     ],
     proTips: [
-      '2025 트렌드: 3-step routine (Cleanser → Serum → Sunscreen) is the new standard',
-      'Listen to your skin – skip steps if it feels overloaded',
-      'Humid days? Go even lighter with just sunscreen'
+      'Trend Alert: "Skin Flooding" – applying products on damp skin for max absorption',
+      'PDRN is the new morning staple for "Glass Skin 2.0"',
+      'If you look like a glazed donut, you\'re doing it right'
     ]
   },
   {
@@ -107,127 +107,101 @@ export const routines: Routine[] = [
     title: '2025 Night Routine',
     titleKo: '2025 나이트 루틴',
     type: 'night',
-    description: 'Nighttime is for repair and recovery. Double cleansing remains essential, but the rest is simplified for skin health.',
+    description: 'The "Skin Cycling" approach. Alternating between recovery, exfoliation, and treatment nights for optimal results without irritation.',
     totalTime: '7-10 min',
     steps: [
       {
         order: 1,
-        name: 'Oil Cleanse',
-        nameKo: '오일 클렌징',
-        description: 'Dissolve sunscreen, makeup, and sebum with an oil or balm cleanser. Massage for 30-60 seconds.',
-        duration: '1 min',
+        name: 'Double Cleanse',
+        nameKo: '이중 세안',
+        description: 'Oil cleanser first for SPF/makeup, foam cleanser second for pores. Non-negotiable.',
+        duration: '2 min',
         tips: [
-          'Use on DRY skin first',
-          'Massage in circular motions',
-          'Emulsify with water, then rinse'
+          'Massage oil for full 60 seconds',
+          'Emulsify with water thoroughly',
+          'Cleansing balms are trending over oils'
         ]
       },
       {
         order: 2,
-        name: 'Water Cleanse',
-        nameKo: '폼 클렌징',
-        description: 'Follow with a gentle water-based cleanser to remove remaining residue.',
+        name: 'Toner Pad',
+        nameKo: '토너 패드',
+        description: 'The "Lazy Girl" hack that took over 2025. Quick gentle exfoliation and hydration in one swipe.',
         duration: '30 sec',
         tips: [
-          'Low pH (5.5) is ideal',
-          'Foam lightly, don\'t scrub',
-          'Lukewarm water only'
-        ]
-      },
-      {
-        order: 3,
-        name: 'Exfoliate',
-        nameKo: '각질 케어',
-        description: 'Chemical exfoliation 2-3x per week. BHA for pores, AHA for texture, PHA for sensitive skin.',
-        duration: '1 min',
-        tips: [
-          'Don\'t mix with retinol',
-          'Start with low concentrations',
-          'Always follow with hydration'
-        ],
-        optional: true
-      },
-      {
-        order: 4,
-        name: 'Toner / Essence',
-        nameKo: '토너 / 에센스',
-        description: 'Hydrate and prep skin for treatments. Fermented essences are trending for their skin-strengthening benefits.',
-        duration: '30 sec',
-        tips: [
-          'Layer if skin is very dry',
-          'Fermented ingredients boost absorption',
-          'Can combine toner + essence step'
+          'Use embossed side for exfoliation',
+          'Smooth side for hydration packing',
+          'Leave on cheeks as mini-mask'
         ],
         recommendedProducts: ['Anua Heartleaf 77% Soothing Toner']
       },
       {
+        order: 3,
+        name: 'Active Treatment',
+        nameKo: '집중 관리',
+        description: 'Choose your fighter: Retinol (Anti-aging) OR PDRN (Repair). Do not mix strong actives.',
+        duration: '1 min',
+        tips: [
+          'Retinol Sandwich: Moisturizer -> Retinol -> Moisturizer',
+          'PDRN is safe to use every night',
+          'Avoid eyes if using high % Retinol'
+        ],
+        recommendedProducts: ['COSRX Retinol 0.1 Cream', 'Medicube PDRN Pink Peptide Serum']
+      },
+      {
+        order: 4,
+        name: 'Recovery Layer',
+        nameKo: '진정 레이어',
+        description: 'Calm the skin after actives. Snail Mucin or Cica are the best buffers.',
+        duration: '1 min',
+        tips: [
+          'Essential if using Retinol',
+          'Snail Mucin repairs barrier overnight',
+          'Pat in multiple thin layers'
+        ],
+        recommendedProducts: ['COSRX Snail Mucin Essence']
+      },
+      {
         order: 5,
-        name: 'Treatment Serum',
-        nameKo: '기능성 세럼',
-        description: 'Night is the time for active ingredients. Retinol, peptides, or PDRN (salmon DNA) for anti-aging.',
+        name: 'Sleeping Mask',
+        nameKo: '슬리핑 마스크',
+        description: 'Overnight occlusion. "Slugging" with modern sleeping masks instead of heavy vaseline.',
         duration: '1 min',
         tips: [
-          'Retinol: start 2x/week',
-          'PDRN is the 2025 hero ingredient',
-          'Peptides are gentle yet effective'
-        ],
-        recommendedProducts: ['Medicube Age-R Booster Pro']
-      },
-      {
-        order: 6,
-        name: 'Eye Cream',
-        nameKo: '아이크림',
-        description: 'Targeted care for the delicate eye area. Tap gently with ring finger.',
-        duration: '30 sec',
-        tips: [
-          'Less is more',
-          'Tap, don\'t rub',
-          'Can use face serum if no specific concerns'
-        ],
-        optional: true
-      },
-      {
-        order: 7,
-        name: 'Moisturizer / Sleeping Mask',
-        nameKo: '수분크림 / 슬리핑 마스크',
-        description: 'Seal everything in. Sleeping masks 2-3x per week for extra hydration boost.',
-        duration: '1 min',
-        tips: [
-          'Richer creams at night are OK',
-          'Sleeping masks replace moisturizer',
-          'Lip mask for overnight lip care'
+          'Don\'t forget your lips',
+          'Apply 30 mins before pillow contact',
+          'Wash off in morning'
         ],
         recommendedProducts: ['Laneige Lip Sleeping Mask']
       }
     ],
     proTips: [
-      '2025 트렌드: "Skin-Care Diet" – use only what your skin truly needs',
-      'Double cleansing is still essential for removing sunscreen',
-      'Invest in one good treatment serum rather than many mediocre ones',
-      'Sheet masks are now occasional treats, not daily essentials'
+      '2025 Rule: "Skin Cycling" – Exfoliate(Day 1) → Retinol(Day 2) → Recover(Day 3&4)',
+      'The "Retinol Sandwich" method stops irritation before it starts',
+      'Sleeping masks > Heavy creams for acne-prone skin'
     ]
   }
 ];
 
 export const skinCareDietTips = [
   {
-    title: 'The 3-Step Morning',
-    description: 'Cleanser (or water) → Serum → Sunscreen. That\'s it.',
-    icon: '☀️'
+    title: 'Skin Flooding',
+    description: 'Layering hydration on damp skin. The secret to 2025\'s glow.',
+    icon: '💦'
   },
   {
-    title: 'The 4-Step Night',
-    description: 'Double Cleanse → Toner → Treatment → Moisturizer.',
-    icon: '🌙'
+    title: 'Skin Cycling',
+    description: '4-day cycle: Exfoliate → Retinol → Recover → Recover.',
+    icon: '🔄'
   },
   {
-    title: 'Listen to Your Skin',
-    description: 'Redness or irritation? Cut back. Healthy glow? You\'re doing great.',
-    icon: '👂'
+    title: 'PDRN Era',
+    description: 'Salmon DNA is replacing basic Hyaluronic Acid for repair.',
+    icon: '🧬'
   },
   {
-    title: 'Quality Over Quantity',
-    description: 'One excellent serum beats five mediocre ones.',
-    icon: '✨'
+    title: 'Barrier First',
+    description: 'Protect your barrier at all costs. No stinging allowed.',
+    icon: '🛡️'
   }
 ];

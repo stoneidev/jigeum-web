@@ -68,6 +68,10 @@ npm run start    # Start production server
 - Brand name "지금" (Jigeum) is in Korean
 - Target audience is international K-Beauty enthusiasts
 
+### Documentation
+- **Walkthrough documents** (`walkthrough.md`) should always be written in **Korean** as per user preference.
+- Technical documentation within the code (comments, JSDoc) remains in English.
+
 ### Environment Variables
 - `NEXT_PUBLIC_GA_ID` - Google Analytics ID
 - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` - Google Search Console verification

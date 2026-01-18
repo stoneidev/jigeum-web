@@ -12,9 +12,11 @@ import ProductModal from './components/ProductModal';
 import Sidebar from './components/Sidebar';
 import FeedbackWidget from './components/FeedbackWidget';
 import RoutineGuide from './components/RoutineGuide';
+import SocialVideos from './components/SocialVideos';
 import { products, Product } from './data/products';
 
 export default function Home() {
+  const [activeMainTab, setActiveMainTab] = useState<'magazine' | 'routine'>('magazine');
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -29,12 +31,25 @@ export default function Home() {
   useEffect(() => {
     const handleCategoryChange = (e: CustomEvent) => {
       setActiveCategory(e.detail);
+      setActiveMainTab('magazine'); // 카테고리 변경 시 메인 탭도 매거진으로 전환
     };
     window.addEventListener('categoryChange', handleCategoryChange as EventListener);
-    return () => window.removeEventListener('categoryChange', handleCategoryChange as EventListener);
+
+    const handleTabChange = (e: CustomEvent) => {
+      setActiveMainTab(e.detail as 'magazine' | 'routine');
+      if (e.detail === 'routine') {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+    };
+    window.addEventListener('mainTabChange', handleTabChange as EventListener);
+
+    return () => {
+      window.removeEventListener('categoryChange', handleCategoryChange as EventListener);
+      window.removeEventListener('mainTabChange', handleTabChange as EventListener);
+    };
   }, []);
 
-  const filteredProducts = activeCategory === 'all' 
+  const filteredProducts = activeCategory === 'all'
     ? products.slice(1)
     : products.filter(p => p.category === activeCategory);
 
@@ -53,80 +68,90 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black">
       <Header />
-      
+
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-0">
-          {/* Main Content */}
-          <div className="lg:col-span-8 lg:pr-8">
-            <HeroSection />
-
-            {/* Featured Trend Articles */}
-            <TrendArticles onShowProduct={setSelectedProduct} />
-
-            {/* Products Section - Compact Header */}
-            <div id="products" className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
-              <div>
-                <h2 className="text-lg lg:text-xl font-serif text-white font-medium">
-                  Must-Have Products
-                </h2>
-              </div>
-              <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
-            </div>
-            
-            {/* Product Grid */}
-            <section className="pb-24 lg:pb-16">
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={activeCategory}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                >
-                  {filteredProducts.map((product, index) => (
-                    <ProductCard 
-                      key={product.id} 
-                      product={product} 
-                      index={index}
-                      onShowDetails={setSelectedProduct}
-                    />
-                  ))}
-                </motion.div>
-              </AnimatePresence>
-              
-              {filteredProducts.length === 0 && (
-                <div className="text-center py-16">
-                  <p className="text-gray-500">No products in this category yet.</p>
+        <AnimatePresence mode="wait">
+          {activeMainTab === 'magazine' ? (
+            <motion.div
+              key="magazine"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="lg:grid lg:grid-cols-12 lg:gap-0"
+            >
+              <div className="lg:col-span-8 lg:pr-8">
+                <HeroSection />
+                <TrendArticles onShowProduct={setSelectedProduct} />
+                <div id="products" className="flex items-center justify-between py-4 border-b border-white/10 mb-4">
+                  <div>
+                    <h2 className="text-lg lg:text-xl font-serif text-white font-medium">
+                      Must-Have Products
+                    </h2>
+                  </div>
+                  <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
                 </div>
-              )}
-            </section>
-          </div>
+                <section className="pb-24 lg:pb-16">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeCategory}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                    >
+                      {filteredProducts.map((product, index) => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          index={index}
+                          onShowDetails={setSelectedProduct}
+                        />
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
+                  {filteredProducts.length === 0 && (
+                    <div className="text-center py-16">
+                      <p className="text-gray-500">No products in this category yet.</p>
+                    </div>
+                  )}
+                </section>
 
-          {/* Sidebar - Desktop only */}
-          <aside className="hidden lg:block lg:col-span-4">
-            <Sidebar />
-          </aside>
-        </div>
+                {/* Social Highlight Section */}
+                <SocialVideos />
+              </div>
+              <aside className="hidden lg:block lg:col-span-4">
+                <Sidebar />
+              </aside>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="routine"
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              className="py-8"
+            >
+              <RoutineGuide />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Product Modal */}
-      <ProductModal 
-        product={selectedProduct} 
-        onClose={() => setSelectedProduct(null)} 
+      <ProductModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
       />
-
-      {/* Routine Guide Section */}
-      <RoutineGuide />
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 px-4 lg:px-8 mb-16 lg:mb-0">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-8">
             <div>
-              <h3 
+              <h3
                 className="text-2xl mb-2 font-medium"
-                style={{ 
+                style={{
                   fontFamily: "'Noto Sans KR', sans-serif",
                   background: 'linear-gradient(135deg, #CD2E3A 0%, #0047A0 100%)',
                   WebkitBackgroundClip: 'text',
@@ -166,7 +191,7 @@ export default function Home() {
       </footer>
 
       {/* Bottom Navigation - Mobile only */}
-      <nav 
+      <nav
         className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-xl border-t py-3 px-6 lg:hidden safe-area-inset-bottom"
         style={{
           borderTopColor: 'rgba(205, 46, 58, 0.3)'
@@ -174,22 +199,22 @@ export default function Home() {
       >
         <div className="flex justify-around">
           {[
-            { icon: '📖', label: 'Magazine', href: '#', onClick: () => scrollToTop() },
-            { icon: '📺', label: 'Watch', href: 'https://www.youtube.com/results?search_query=k-beauty+trends+2025' },
-            { icon: '📸', label: 'Instagram', href: 'https://www.instagram.com/explore/tags/kbeauty/' },
-            { icon: '🎵', label: 'TikTok', href: 'https://www.tiktok.com/tag/kbeauty' },
+            { id: 'magazine', icon: '📖', label: 'Magazine', onClick: () => { setActiveMainTab('magazine'); scrollToTop(); } },
+            { id: 'routine', icon: '✨', label: 'Routine', onClick: () => { setActiveMainTab('routine'); scrollToTop(); } },
+            { id: 'watch', icon: '📺', label: 'Watch', href: 'https://www.youtube.com/results?search_query=k-beauty+trends+2025' },
+            { id: 'social', icon: '📸', label: 'Social', href: 'https://www.instagram.com/explore/tags/kbeauty/' },
           ].map((item) => (
-            <a 
-              key={item.label}
-              href={item.href} 
-              onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick?.(); } : undefined}
-              target={item.href.startsWith('http') ? '_blank' : undefined}
-              rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className="text-center py-2 px-4 rounded-lg active:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex flex-col items-center justify-center"
+            <button
+              key={item.id}
+              onClick={item.onClick ? (e) => { e.preventDefault(); item.onClick?.(); } : () => window.open(item.href, '_blank')}
+              className={`text-center py-2 px-4 rounded-lg active:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex flex-col items-center justify-center ${(item.id === 'magazine' && activeMainTab === 'magazine') || (item.id === 'routine' && activeMainTab === 'routine')
+                ? 'text-white'
+                : 'text-gray-400'
+                }`}
             >
               <span className="text-lg block">{item.icon}</span>
-              <p className="text-[10px] text-gray-400 mt-0.5">{item.label}</p>
-            </a>
+              <p className="text-[10px] mt-0.5">{item.label}</p>
+            </button>
           ))}
         </div>
       </nav>
