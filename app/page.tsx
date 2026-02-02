@@ -13,6 +13,7 @@ import Sidebar from './components/Sidebar';
 import FeedbackWidget from './components/FeedbackWidget';
 import RoutineGuide from './components/RoutineGuide';
 import SocialVideos from './components/SocialVideos';
+import RedditAnalysis from './components/RedditAnalysis';
 import { products, Product } from './data/products';
 
 export default function Home() {
@@ -119,6 +120,9 @@ export default function Home() {
 
                 {/* Social Highlight Section */}
                 <SocialVideos />
+
+                {/* Social Listening Section */}
+                <RedditAnalysis />
               </div>
               <aside className="hidden lg:block lg:col-span-4">
                 <Sidebar />
