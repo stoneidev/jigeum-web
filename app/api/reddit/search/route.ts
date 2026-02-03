@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
         const response = await fetch(redditUrl, {
             headers: {
-                'User-Agent': 'JigeumWeb/0.1.0 (Next.js 16; +https://jigeum.today)',
+                'User-Agent': 'Mozilla/5.0 (compatible; JigeumBot/1.0; +https://jigeum.today)',
             },
             next: { revalidate: 3600 }, // Cache for 1 hour
         });

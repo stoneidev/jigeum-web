@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,7 +52,7 @@ export default function Header() {
         <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-3' : 'py-6'
           }`}>
           {/* Logo */}
-          <a href="/" className="text-center group">
+          <Link href="/" className="text-center group">
             <p className={`tracking-[0.3em] text-gray-500 uppercase transition-all ${scrolled ? 'text-[8px] hidden' : 'text-[10px]'
               }`}>The</p>
             <h1
@@ -69,7 +70,7 @@ export default function Header() {
             </h1>
             <p className={`tracking-[0.2em] text-gray-500 uppercase transition-all ${scrolled ? 'text-[8px]' : 'text-[10px]'
               }`}>K-Beauty Magazine</p>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
